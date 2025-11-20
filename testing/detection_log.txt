@@ -1,0 +1,9 @@
+
+License Plate Detection Log
+===========================
+Timestamp: 2025-11-10 13:12:57
+Frames Processed: 930
+Total Detections: 2245
+Model: plateSentry.pt
+OCR: EasyOCR
+        

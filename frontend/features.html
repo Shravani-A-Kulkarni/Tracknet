@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackNet - Our Features</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style> 
+        
+        .services { padding-top: 8rem; } 
+        
+       
+        .service-card { 
+            text-decoration: none;
+            color: inherit; 
+            display: flex; 
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .service-card h3, .service-card p {
+           
+            color: white; 
+        }
+        
+        .gradient-green h3, .gradient-green p {
+             color: var(--color-dark); 
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">TrackNet</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="features.html" class="active">Features</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="services" id="services">
+        <h2>Our Intelligent Detection Features</h2>
+        <div class="service-container">
+
+            <a href="helmet_detection.html" class="service-card gradient-blue">
+                <i class="fa-solid fa-helmet-safety icon"></i>
+                <div>
+                    <h3>Helmet Detection</h3>
+                    <p>Detect riders without helmets in real-time from CCTV feeds to ensure safety compliance.</p>
+                </div>
+            </a>
+
+            <a href="triple_seating.html" class="service-card gradient-green">
+                <i class="fa-solid fa-person-running icon"></i>
+                <div>
+                    <h3>Triple Seating</h3>
+                    <p>Identify traffic violations of triple-seated riders automatically.</p>
+                </div>
+            </a>
+
+            <a href="number_plate.html" class="service-card gradient-purple">
+                <i class="fa-solid fa-id-badge icon"></i>
+                <div>
+                    <h3>Number Plate Detection</h3>
+                    <p>Recognize and extract vehicle registration numbers automatically (ANPR).</p>
+                </div>
+            </a>
+
+            <a href="speed_detection.html" class="service-card gradient-orange">
+                <i class="fa-solid fa-gauge-high icon"></i>
+                <div>
+                    <h3>Count & Speed Detection</h3>
+                    <p>Track real-time vehicle count and measure speed patterns for traffic analysis.</p>
+                </div>
+            </a>
+
+            <a href="object_detection.html" class="service-card gradient-red">
+                <i class="fa-solid fa-eye icon"></i>
+                <div>
+                    <h3>Object Detection</h3>
+                    <p>Identify and classify multiple objects from surveillance footage for forensic review.</p>
+                </div>
+            </a>
+            
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2025 TrackNet. All rights reserved.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrackNet - Speed Detection Details</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <style>
+      .detail-content {
+        padding: 8rem 4rem 5rem;
+        color: white;
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: left;
+      }
+      .detail-content h1 {
+        color: var(--color-primary);
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--color-secondary);
+      }
+      .detail-content p {
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+        color: var(--text-color-light);
+      }
+      .detail-content ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 2rem;
+      }
+      .detail-content ul li {
+        background: rgba(0, 234, 255, 0.1);
+        margin-bottom: 10px;
+        padding: 10px 15px;
+        border-left: 5px solid var(--color-primary);
+        border-radius: 5px;
+      }
+
+      /* --- Upload Section Styling --- */
+      .upload-box {
+        background: #1a1a3a;
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        margin-top: 3rem;
+        border: 1px solid rgba(0, 234, 255, 0.2);
+        text-align: center;
+      }
+      .upload-box h2 {
+        color: #fff;
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+      }
+      .upload-box input[type="file"] {
+        display: none;
+      }
+      .custom-upload-btn {
+        background: var(--color-secondary);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        display: inline-block;
+        transition: background 0.3s;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      .custom-upload-btn:hover {
+        background: #004d99;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">TrackNet</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="features.html" class="active">Features</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <section class="detail-content">
+      <h1>
+        <i class="fa-solid fa-gauge-high"></i> Count & Speed Detection: Detailed
+        Overview
+      </h1>
+      <p>
+        This feature offers accurate traffic flow analysis by counting vehicles
+        and precisely measuring their average and peak speeds over a defined
+        zone. It's a key tool for smart city traffic management and engineering,
+        ensuring road safety and optimized traffic signals.
+      </p>
+
+      <div class="upload-box">
+        <h2><i class="fa-solid fa-video"></i> Test Your Footage</h2>
+
+        <form
+          id="videoUploadForm"
+          action="#"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input
+            type="file"
+            id="videoFile"
+            name="videoFile"
+            accept="video/*"
+            required
+          />
+          <label for="videoFile" class="custom-upload-btn">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Select Video File
+          </label>
+          <p
+            id="fileNameDisplay"
+            style="color: var(--color-primary); font-weight: 500"
+          ></p>
+          <button
+            type="submit"
+            class="btn"
+            style="
+              background: var(--color-primary);
+              color: var(--color-dark);
+              margin-top: 1rem;
+            "
+          >
+            Upload and Analyze
+          </button>
+        </form>
+      </div>
+      <a
+        href="features.html"
+        class="btn"
+        style="background: var(--color-secondary); margin-top: 3rem"
+        >← Back to All Features</a
+      >
+    </section>
+
+    <footer>&copy; 2025 TrackNet. All rights reserved.</footer>
+
+    <script src="script.js"></script>
+    <script src="js/speed_estimation.js"></script>
+  </body>
+</html>
