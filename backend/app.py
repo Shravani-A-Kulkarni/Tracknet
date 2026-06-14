@@ -13,6 +13,18 @@ sys.path.insert(0, backend_dir)
 sys.path.insert(0, src_dir)
 
 print(f"📁 Python paths: {sys.path}")
+print(f"📁 Backend dir: {backend_dir}")
+print(f"📁 SRC dir: {src_dir}")
+
+# List available modules in src
+print("📦 Available modules in src folder:")
+try:
+    if os.path.exists(src_dir):
+        for file in os.listdir(src_dir):
+            if file.endswith('.py'):
+                print(f"  - {file}")
+except Exception as e:
+    print(f"❌ Error listing src folder: {e}")
 
 app = Flask(__name__)
 
@@ -30,8 +42,38 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE')
+    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE, PUT')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    response.headers.add('Access-Control-Expose-Headers', 'Content-Type, Content-Length, Content-Range, Accept-Ranges')
     return response
+
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    """Enhanced health check"""
+    try:
+        # Test ultralytics import
+        from ultralytics import YOLO
+        ultralytics_status = "✅ Working"
+        
+        # Test helmet_detection import
+        try:
+            from helmet_detection import process_video
+            helmet_status = "✅ Available"
+        except ImportError as e:
+            helmet_status = f"❌ Error: {str(e)}"
+            
+    except Exception as e:
+        ultralytics_status = f"❌ Error: {str(e)}"
+        helmet_status = "❌ Unknown"
+        
+    return jsonify({
+        'status': 'healthy', 
+        'message': 'Backend is running!',
+        'ultralytics': ultralytics_status,
+        'helmet_detection': helmet_status,
+        'upload_folder_size': len(os.listdir(UPLOAD_FOLDER)),
+        'output_folder_size': len(os.listdir(OUTPUT_FOLDER))
+    })
 
 @app.route('/api/process_video', methods=['OPTIONS', 'POST'])
 def process_video():
@@ -154,7 +196,6 @@ def process_video():
                 
             except Exception as e:
                 print(f"❌ NUMBER PLATE DETECTION error: {e}")
-                import traceback
                 traceback.print_exc()
                 if os.path.exists(input_path):
                     os.remove(input_path)
@@ -164,19 +205,33 @@ def process_video():
             print(f"🔄 Processing video with HELMET DETECTION: {input_path} -> {output_path}")
             
             try:
+                # Import helmet detection module - SIMPLE VERSION
                 from helmet_detection import process_video as process_helmet_detection
+                
                 print("✅ Imported HELMET DETECTION module")
-                process_helmet_detection(input_path, output_path)
+                
+                # Process video - returns (output_path, alert_history)
+                output_path, alert_history = process_helmet_detection(input_path, output_path)
+                
                 print(f"✅ HELMET DETECTION completed: {output_path}")
+                print(f"📊 Alerts generated: {len(alert_history)}")
+                
+                # Return success response
+                return jsonify({
+                    'success': True,
+                    'message': 'Helmet detection completed successfully',
+                    'output_path': output_path,
+                    'output_file': os.path.basename(output_path),
+                    'total_alerts': len(alert_history),
+                    'alerts': alert_history
+                })
                 
             except Exception as e:
                 print(f"❌ HELMET DETECTION error: {e}")
-                import traceback
                 traceback.print_exc()
                 if os.path.exists(input_path):
                     os.remove(input_path)
                 return jsonify({'success': False, 'message': f'Helmet detection failed: {str(e)}'}), 500
-
              
         else:
             # Clean up input file for unknown model type
@@ -305,15 +360,18 @@ def cleanup_files():
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
 
-@app.route('/api/health', methods=['GET'])
-def health_check():
-    return jsonify({
-        'status': 'healthy', 
-        'message': 'Backend is running!',
-        'upload_folder_size': len(os.listdir(UPLOAD_FOLDER)),
-        'output_folder_size': len(os.listdir(OUTPUT_FOLDER))
-    })
-
 if __name__ == '__main__':
     print("🚀 Starting Flask server...")
-    app.run(debug=False, host='0.0.0.0', port=5000)
+    print("🐍 Python version:", sys.version)
+    print("📁 Current directory:", os.getcwd())
+    
+    # Test ultralytics import at startup
+    try:
+        from ultralytics import YOLO
+        print("✅ Ultralytics import successful!")
+    except Exception as e:
+        print(f"❌ Ultralytics import failed: {e}")
+        print("💡 Make sure you're in the virtual environment!")
+        print("💡 Run: pip install ultralytics==8.0.196")
+    
+    app.run(debug=True, host='0.0.0.0', port=5000)

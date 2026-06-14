@@ -40,7 +40,7 @@ class HelmetDetectionProcessor {
       console.log("✅ Response received. Status:", res.status, res.statusText);
       console.log(
         "📨 Response headers:",
-        Object.fromEntries(res.headers.entries())
+        Object.fromEntries(res.headers.entries()),
       );
 
       clearTimeout(timeoutId);
@@ -54,9 +54,18 @@ class HelmetDetectionProcessor {
       const data = await res.json();
       console.log("📊 Response data:", data);
 
-      if (data.success && data.output_file) {
-        const streamUrl = `${this.baseUrl}/stream/${data.output_file}`;
-        const downloadUrl = `${this.baseUrl}/download/${data.output_file}`;
+      if (data.success) {
+        // Get the file ID from output_path or output_file
+        const fileId = data.output_file
+          ? data.output_file.replace("processed_", "").replace(".mp4", "")
+          : null;
+
+        if (!fileId) {
+          throw new Error("Could not get output file from server response");
+        }
+
+        const streamUrl = `${this.baseUrl}/stream/processed_${fileId}.mp4`;
+        const downloadUrl = `${this.baseUrl}/download/processed_${fileId}.mp4`;
 
         return {
           success: true,
